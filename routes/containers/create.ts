@@ -8,12 +8,15 @@ const router = express.Router();
 router.use(json());
 router.post("/create", async (req: Request, res: Response) => {
 	const { baseImage, imageTag, containerName } = req.body;
+	console.log(baseImage, imageTag, containerName);
 	//tty:true
 	var auxContainer;
 
 	docker.createContainer({Image: `shellinabox:${baseImage}`, name: containerName}, (err: Error, container) => {
 		container?.start((err, data) => {
 			console.log(data);
+			if (err)
+				console.log(err);
 		})
 	})
 	// docker.pull("ubuntu:18.04", (err: any, stream: any) => {
