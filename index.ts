@@ -41,7 +41,7 @@ app.post("/", (req: Request, res: Response) => {
   run(data).then((result) => {
     res.json({
       id: result,
-      ip: "3.95.204.244",
+      ip: "54.210.61.73",
       port
     }).end();
   }).catch(console.error);
