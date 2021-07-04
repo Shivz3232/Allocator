@@ -13,6 +13,8 @@ router.post("/create", async (req: Request, res: Response) => {
 	var auxContainer;
 
 	docker.createContainer({Image: `shellinabox:${baseImage}`, name: containerName}, (err: Error, container) => {
+		if (err) console.log(err)
+		console.log(container)
 		container?.start((err, data) => {
 			console.log(data);
 			if (err)
