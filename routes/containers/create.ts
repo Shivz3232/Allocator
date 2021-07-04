@@ -11,17 +11,17 @@ router.post("/create", async (req: Request, res: Response) => {
 	//tty:true
 	var auxContainer;
 
-	// docker.run(
-	// 	"ubuntu",
-	// 	["bash", "-c", "uname -a"],
-	// 	process.stdout,
-	// 	(err: any, data: any, container: Dockerode.Container) => {
-	// 		console.log(data.statusCode);
-	// 	}
-	// );
-	docker.pull("ubuntu:18.04", (err: any, stream: any) => {
-		stream.pipe(process.stdout);
-	});
+	docker.run(
+		`shellinabox:${baseImage}`,
+		[],
+		process.stdout,
+		(err: any, data: any, container: Dockerode.Container) => {
+			console.log(data.statusCode);
+		}
+	);
+	// docker.pull("ubuntu:18.04", (err: any, stream: any) => {
+	// 	stream.pipe(process.stdout);
+	// });
 	// docker.createContainer(
 	// 	{
 	// 		Image: "ubuntu:18.04",
