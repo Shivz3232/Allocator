@@ -25,18 +25,32 @@ router.post("/create", async (req: Request, res: Response) => {
 	docker.createContainer({Image: `sspreitzer/shellinabox:${baseImage}`, name: containerName, HostConfig: { PortBindings }}, (err: Error, container) => {
 		if (!err) {
 			container?.start((err, data) => {
+				console.log(typeof data);
+				try {
+					console.log(data.toJSON().id)
+				} catch (error) {
+					return res.end("Cannot convert")
+				}
 				if (!err) {
 					res.json({
-						id: JSON.parse(String(data)).id,
+						id: data.id,
 						ip: "54.210.61.73",
 						port
 					}).end()
 				} else {
 					console.error(err);
+					res.status(500)
+					res.json({
+						err: err
+					}).end();
 				}
 			})
 		} else {
 			console.error(err)
+			res.status(500)
+			res.json({
+				err: err
+			}).end();
 		}
 	})
 	// docker.pull("ubuntu:18.04", (err: any, stream: any) => {
