@@ -9,7 +9,7 @@ let port = 3001
 
 router.use(json());
 router.post("/create", async (req: Request, res: Response) => {
-	const { baseImage, imageTag, containerName } = req.body;
+	const { baseImage, imageTag, containerName, password, username } = req.body;
 	console.log(baseImage, imageTag, containerName);
 	//tty:true
 	var auxContainer;
@@ -22,7 +22,7 @@ router.post("/create", async (req: Request, res: Response) => {
 		]
 	}
 
-	docker.createContainer({Image: `sspreitzer/shellinabox:${baseImage}`, name: containerName, HostConfig: { PortBindings }}, (err: Error, container) => {
+	docker.createContainer({Image: `sspreitzer/shellinabox:${baseImage}`, name: containerName, HostConfig: { PortBindings }, Env: ["SIAB_SSL=false", `SIAB_PASSWORD=${password}`, `SIAB_USER=${username}`, `SIAB_SUDO=true`]}, (err: Error, container) => {
 		if (!err) {
 			container?.start((err, data) => {
 				if (!err) {
