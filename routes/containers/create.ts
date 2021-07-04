@@ -25,12 +25,6 @@ router.post("/create", async (req: Request, res: Response) => {
 	docker.createContainer({Image: `sspreitzer/shellinabox:${baseImage}`, name: containerName, HostConfig: { PortBindings }}, (err: Error, container) => {
 		if (!err) {
 			container?.start((err, data) => {
-				console.log(typeof data);
-				try {
-					console.log(data.toJSON().id)
-				} catch (error) {
-					return res.end("Cannot convert")
-				}
 				if (!err) {
 					res.json({
 						id: data.id,
