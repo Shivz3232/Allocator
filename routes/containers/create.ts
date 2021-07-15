@@ -23,6 +23,7 @@ router.post("/create", async (req: Request, res: Response) => {
 		if (!err) {
 			container?.start((err, data) => {
 				if (!err) {
+					res.setHeader("Access-Control-Allow-Origin", "*");
 					res.json({
 						id: data.id,
 						ip: "3.89.213.136",
