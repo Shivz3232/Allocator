@@ -44,7 +44,9 @@ app.post("/", (req: Request, res: Response) => {
       ip: "3.89.213.136",
       port
     }).end();
-  }).catch(console.error);
+  }).catch(err => {
+    res.status(500)
+  });
 })
 
 app.listen(3000, () => console.log("Listening on 3000"));

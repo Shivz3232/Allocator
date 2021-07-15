@@ -10,7 +10,7 @@ let port = 3001;
 router.use(json());
 router.post("/create", async (req: Request, res: Response) => {
 	const { baseImage, containerName, password, username } = req.body;
-	port = port+1;
+	port = 3001 + Math.floor(Math.random() * 100);
 	var PortBindings: Dockerode.PortMap = {
 		"4200/tcp": [
 			{
@@ -25,7 +25,7 @@ router.post("/create", async (req: Request, res: Response) => {
 				if (!err) {
 					res.json({
 						id: data.id,
-						ip: "54.210.61.73",
+						ip: "3.89.213.136",
 						port
 					}).end();
 				} else {
