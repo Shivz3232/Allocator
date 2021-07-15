@@ -6,7 +6,9 @@ const bodyParser = require("body-parser")
 const app = express();
 const { indexImageRouter } = require("./routes/images/index");
 const { indexContainerRouter } = require("./routes/containers");
+const cors = require("cors");
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use("/api/images", indexImageRouter)
 app.use("/api/container", indexContainerRouter)
