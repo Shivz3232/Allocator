@@ -9,7 +9,7 @@ router.use(json());
 router.post("/save", async (req: Request, res: Response) => {
   const { containerName } = req.body;
 
-  const { containerId } = await Container.findOne({ containerName }).catch((err: Error) => {
+  const doc = await Container.findOne({ containerName }).catch((err: Error) => {
     console.error(err);
 
     return res.json({
@@ -17,34 +17,43 @@ router.post("/save", async (req: Request, res: Response) => {
     }).end();
   });
 
-  const container = docker.getContainer(containerId);
-
-  container.commit({
-    container: containerId,
-    repo: "shyvz",
-    tag: containerName
-  }, (err, result) => {
-    if (!err) {
-      Container.findOneAndUpdate({ containerId }, { status: "Stopped"})
-        .then(() => {
-          res.json({
-            imageName: `shyvz/${containerName}`
-          }).end();
-        })
-        .catch((err: Error) => {
-          console.error(err);
-          res.json({
-            message: "container commited, but failed to update status in db"
+  console.log(doc);
+  
+  if (doc) {
+    const container = docker.getContainer(doc.containerId);
+  
+    container.commit({
+      container: doc.containerId,
+      repo: "shyvz",
+      tag: containerName
+    }, (err, result) => {
+      if (!err) {
+        Container.findOneAndUpdate({ containerId: doc.containerId }, { status: "Stopped"})
+          .then(() => {
+            res.json({
+              imageName: `shyvz/${containerName}`
+            }).end();
           })
-        })
-    } else {
-      console.error(err);
-      res.status(500)
-      res.json({
-        err: err
-      }).end();
-    }
-  });
+          .catch((err: Error) => {
+            console.error(err);
+            res.json({
+              message: "container commited, but failed to update status in db"
+            });
+          })
+      } else {
+        console.error(err);
+        res.status(500)
+        res.json({
+          err: err
+        }).end();
+      }
+    });
+  } else {
+    res.json({
+      message: "coundn't find container"
+    })
+  }
+
 });
 
 export { router as saveContainerRouter };
