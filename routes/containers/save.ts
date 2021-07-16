@@ -18,10 +18,10 @@ router.post("/save", async (req: Request, res: Response) => {
   });
   
   if (doc) {
-    const container = docker.getContainer(doc.containerId);
+    const container = docker.getContainer(doc.containerName);
   
     container.commit({
-      container: doc.containerId,
+      container: doc.containerName,
       repo: "shyvz",
       tag: containerName
     }, (err, result) => {
