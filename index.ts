@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 
+require("dotenv").config();
+
 const exec = require("child_process").exec;
 const express = require("express");
 const bodyParser = require("body-parser")
@@ -7,6 +9,13 @@ const app = express();
 const { indexImageRouter } = require("./routes/images/index");
 const { indexContainerRouter } = require("./routes/containers");
 const cors = require("cors");
+const mongoose = require("mongoose");
+
+mongoose.connect(process.env.MONGO_CONNECTION_URL, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+  useFindAndModify: false,
+});
 
 app.use(cors());
 app.use(bodyParser.json());

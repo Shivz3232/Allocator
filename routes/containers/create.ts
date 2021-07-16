@@ -2,6 +2,7 @@ import { json } from "body-parser";
 import { docker } from "../../utils/dockersock";
 import express, { Request, Response } from "express";
 import Dockerode from "dockerode";
+import Container from "../../models/container";
 
 const router = express.Router();
 
@@ -21,8 +22,15 @@ router.post("/create", async (req: Request, res: Response) => {
 
 	docker.createContainer({Image: `sspreitzer/shellinabox:${baseImage}`, name: containerName, HostConfig: { PortBindings }, Env: ["SIAB_SSL=false", `SIAB_PASSWORD=${password}`, `SIAB_USER=${username}`, `SIAB_SUDO=true`]}, (err: Error, container) => {
 		if (!err) {
-			container?.start((err, data) => {
+			container?.start(async (err, data) => {
 				if (!err) {
+					await Container.create({
+						containerId: data.id,
+						imageName: `sspreitzer/shellinabox:${baseImage}`,
+						containerName: containerName,
+						state: "Running"
+					}).catch(console.error);
+
 					res.setHeader("Access-Control-Allow-Origin", "*");
 					res.json({
 						id: data.id,
