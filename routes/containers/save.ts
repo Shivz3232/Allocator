@@ -16,8 +16,6 @@ router.post("/save", async (req: Request, res: Response) => {
       message: "failed to find container id"
     }).end();
   });
-
-  console.log(doc);
   
   if (doc) {
     const container = docker.getContainer(doc.containerId);
