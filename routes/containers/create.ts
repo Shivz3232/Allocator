@@ -27,7 +27,7 @@ router.post("/create", async (req: Request, res: Response) => {
 					await Container.create({
 						containerId: container.id,
 						baseImage: `sspreitzer/shellinabox:${baseImage}`,
-						type: "raw",
+						origin: "raw",
 						state: "Running"
 					}).catch(console.error);
 					res.setHeader("Access-Control-Allow-Origin", "*");
