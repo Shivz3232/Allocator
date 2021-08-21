@@ -35,10 +35,9 @@ router.post("/commit", async (req: Request, res: Response) => {
       repo: "shyvz",
       tag
     }, async (err, result) => {
-      console.log(result);
       if (!err) {
         await Image.create({
-          imageId: result.id,
+          imageId: result.Id,
           repo: "shyvz",
           tag
         })
