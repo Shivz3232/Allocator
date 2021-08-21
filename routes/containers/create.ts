@@ -22,6 +22,7 @@ router.post("/create", async (req: Request, res: Response) => {
 
 	docker.createContainer({Image: `sspreitzer/shellinabox:${baseImage}`, name: containerName, HostConfig: { PortBindings }, Env: ["SIAB_SSL=false", `SIAB_PASSWORD=${password}`, `SIAB_USER=${username}`, `SIAB_SUDO=true`]}, (err: Error, container) => {
 		if (!err) {
+			console.log(container);
 			container?.start(async (err, data) => {
 				if (!err) {
 					await Container.create({
