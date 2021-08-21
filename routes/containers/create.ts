@@ -22,19 +22,16 @@ router.post("/create", async (req: Request, res: Response) => {
 
 	docker.createContainer({Image: `sspreitzer/shellinabox:${baseImage}`, name: containerName, HostConfig: { PortBindings }, Env: ["SIAB_SSL=false", `SIAB_PASSWORD=${password}`, `SIAB_USER=${username}`, `SIAB_SUDO=true`]}, (err: Error, container) => {
 		if (!err) {
-			console.log(container);
-			container?.start(async (err, data) => {
+			container?.start(async (err) => {
 				if (!err) {
 					await Container.create({
-						containerId: data.id,
+						containerId: container.id,
 						baseImage: `sspreitzer/shellinabox:${baseImage}`,
 						type: "raw",
 						state: "Running"
 					}).catch(console.error);
-					console.log(String(data));
 					res.setHeader("Access-Control-Allow-Origin", "*");
 					res.json({
-						id: data.id,
 						ip: "3.89.213.136",
 						port
 					}).end();
