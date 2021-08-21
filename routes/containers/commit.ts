@@ -61,9 +61,11 @@ router.post("/commit", async (req: Request, res: Response) => {
       }
     });
   } else {
+    res.status(404);
     res.json({
       message: "coundn't find container"
-    })
+    });
+    res.end();
   }
 
 });

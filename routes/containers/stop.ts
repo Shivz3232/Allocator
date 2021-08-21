@@ -9,7 +9,7 @@ router.use(json());
 router.post("/stop", async (req: Request, res: Response) => {
   const { containerId } = req.body;
   
-  const containerDoc = await Container.findOne({ _id: containerId, status: "Running" }, "containerId status").catch(console.error);
+  const containerDoc = await Container.findOne({ containerId, status: "Running" }, "containerId status").catch(console.error);
 
   if (containerDoc) {
     const container = docker.getContainer(containerDoc.containerId);
