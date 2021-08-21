@@ -16,7 +16,7 @@ router.post("/stop", async (req: Request, res: Response) => {
 
     container.stop(containerDoc.containerId, async (err: Error, result) => {
       if (!err) {
-        containerDoc.status = "Stopped";
+        containerDoc.state = "Stopped";
 
         containerDoc.save()
           .then(() => {
