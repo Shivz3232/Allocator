@@ -30,7 +30,7 @@ router.post("/create", async (req: Request, res: Response) => {
 						type: "raw",
 						state: "Running"
 					}).catch(console.error);
-
+					console.log(String(data));
 					res.setHeader("Access-Control-Allow-Origin", "*");
 					res.json({
 						id: data.id,
