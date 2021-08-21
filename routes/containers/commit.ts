@@ -11,22 +11,9 @@ router.post("/commit", async (req: Request, res: Response) => {
   const { tag, containerId } = req.body;
 
   // Check if tag is available
-  const tagAvailable = await Image.countDocuments({ tag }, (err, count) => {
-    if (err) {
-      console.error(err);
-      return false;
-    } else {
-      if (count != 0) {
-        return false;
-      } else {
-        return true;
-      }
-    }
-  })
+  const count = await Image.countDocuments({ tag });
 
-  console.log(tagAvailable);
-
-  if (!tagAvailable) {
+  if (count > 0) {
     res.status(400);
     res.json({
       message: "Tag not available"
