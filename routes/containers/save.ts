@@ -26,7 +26,7 @@ router.post("/save", async (req: Request, res: Response) => {
       tag: containerName
     }, (err, result) => {
       if (!err) {
-        Container.findOneAndUpdate({ containerId: doc.containerId }, { state: "Stopped"})
+        Container.findOneAndUpdate({ containerId: doc.containerId }, { state: "Stopped", imageName: `shyvz/${containerName}`})
           .then(() => {
             res.json({
               imageName: `shyvz/${containerName}`
