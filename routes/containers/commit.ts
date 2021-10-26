@@ -8,7 +8,7 @@ const router = express.Router();
 router.use(json());
 
 router.post("/commit", async (req: Request, res: Response) => {
-  const { tag, containerId } = req.body;
+  const { tag, containerId, userId } = req.body;
 
   // Check if tag is available
   const count = await Image.countDocuments({ tag });
@@ -38,6 +38,7 @@ router.post("/commit", async (req: Request, res: Response) => {
       if (!err) {
         await Image.create({
           imageId: result.Id,
+          userId,
           repo: "shyvz",
           tag
         })

@@ -1,10 +1,18 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema, SchemaTypes } from 'mongoose';
+
+export interface ImageI extends Document {
+  userId: string;
+  imageId: string;
+  repo: string;
+  tag: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 const imageSchema = new Schema({
-  instructorId: {
-    type: String,
-    // required: true,
-    default: "admin"
+  userId: {
+    type: SchemaTypes.ObjectId,
+    ref: "Users"
   },
   imageId: {
     type: String,
@@ -27,6 +35,6 @@ const imageSchema = new Schema({
   }
 });
 
-const ImageModel = model('images', imageSchema);
+const ImageModel = model<ImageI>('images', imageSchema);
 
 export default ImageModel;

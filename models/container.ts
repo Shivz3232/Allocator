@@ -1,10 +1,20 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, SchemaTypes } from "mongoose";
+
+export interface ContainerI extends Document {
+  userId: string;
+  containerId: string;
+  origin: "raw" | "native";
+  baseImage: string;
+  state: "Running" | "Stopped";
+  createdAt: string;
+  updatedAt: string;
+}
 
 const ContainerSchema = new Schema({
-  instructorId: {
-    type: String,
-    // required: true
-    default: "admin"
+  userId: {
+    type: SchemaTypes.ObjectId,
+    required: true,
+    ref: "Users"
   },
   containerId: {
     type: String,
@@ -31,6 +41,6 @@ const ContainerSchema = new Schema({
   }
 });
 
-const ContainerModel = model("containers", ContainerSchema);
+const ContainerModel = model<ContainerI>("containers", ContainerSchema);
 
 export default ContainerModel;
