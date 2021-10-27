@@ -11,7 +11,7 @@ const { indexContainerRouter } = require("./routes/containers");
 const cors = require("cors");
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb+srv://afif:Wu7DZ4PG8rBEJHZ7@image-service.kp4h6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://afif:Wu7DZ4PG8rBEJHZ7@image-service.kp4h6.mongodb.net", {
   useUnifiedTopology: true,
   useNewUrlParser: true,
   useFindAndModify: false,
