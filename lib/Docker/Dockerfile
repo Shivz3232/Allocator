@@ -1,7 +1,8 @@
-FROM sspreitzer/shellinabox:${base_image}
-
 ARG $PASSWORD
 ARG $USERNAME
+ARG $BASE_IMAGE
+
+FROM sspreitzer/shellinabox:$BASE_IMAGE
 
 ENV SIAB_SSL false
 ENV SIAB_PASSWORD $PASSWORD
