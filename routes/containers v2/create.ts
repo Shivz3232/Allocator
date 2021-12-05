@@ -47,7 +47,7 @@ router.post("/create", async (req: Request, res: Response) => {
     return res.end();
   }
 
-	const result = await docker.run(t, ["-it", "-d", "-p", `${port}:4217`], process.stdout).then((data) => {
+	const result = await docker.run(t, ["-it", "-d", "-p", `${port}:4217`], []).then((data) => {
 		return data;
 	}).catch(err => {
 		return err;
