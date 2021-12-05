@@ -47,42 +47,51 @@ router.post("/create", async (req: Request, res: Response) => {
     return res.end();
   }
 
-  docker.createContainer({
-    Image: t,
-    name: containerName,
-    HostConfig: { PortBindings },
-		Cmd: ["-it", "-d"]
-  }, (err: Error, container) => {
-    if (!err) {
-			container?.start(async (err) => {
-				if (!err) {
-					await Container.create({
-						containerId: container.id,
-						baseImage: t,
-						origin: "raw",
-						state: "Running"
-					}).catch(console.error);
-					res.setHeader("Access-Control-Allow-Origin", "*");
-					res.json({
-						ip: process.env.HOST_IP,
-						port
-					}).end();
-				} else {
-					console.error(err);
-					res.status(500)
-					res.json({
-						err: err
-					}).end();
-				}
-			});
-		} else {
-			console.error(err)
-			res.status(500)
-			res.json({
-				err: err
-			}).end();
-		}
-  })
+	await docker.run(t, ["-it", "-d", "-p", `${port}:4217`], process.stdout).then((data) => {
+		console.log(data);
+		res.end();
+	}).catch(err => {
+		console.log(err);
+		res.status(500);
+		res.end()
+	})
+	
+  // docker.createContainer({
+  //   Image: t,
+  //   name: containerName,
+  //   HostConfig: { PortBindings },
+	// 	Cmd: ["-it", "-d"]
+  // }, (err: Error, container) => {
+  //   if (!err) {
+	// 		container?.start(async (err) => {
+	// 			if (!err) {
+	// 				await Container.create({
+	// 					containerId: container.id,
+	// 					baseImage: t,
+	// 					origin: "raw",
+	// 					state: "Running"
+	// 				}).catch(console.error);
+	// 				res.setHeader("Access-Control-Allow-Origin", "*");
+	// 				res.json({
+	// 					ip: process.env.HOST_IP,
+	// 					port
+	// 				}).end();
+	// 			} else {
+	// 				console.error(err);
+	// 				res.status(500)
+	// 				res.json({
+	// 					err: err
+	// 				}).end();
+	// 			}
+	// 		});
+	// 	} else {
+	// 		console.error(err)
+	// 		res.status(500)
+	// 		res.json({
+	// 			err: err
+	// 		}).end();
+	// 	}
+  // })
 
 })
 
