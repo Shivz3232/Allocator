@@ -27,7 +27,10 @@ router.post("/create", async (req: Request, res: Response) => {
     PASSWORD: password
   }
   
-  docker.buildImage(path.join(__dirname, "../../lib/Docker/Dockerfile"), { buildargs }, (error, result) => {
+  docker.buildImage({
+    context: path.join(__dirname, "../../lib/Docker"),
+    src: ['Dockerfile', 'shellinabox']
+  }, { buildargs }, (error, result) => {
     if (!error) {
       console.log(result);
       res.end();
