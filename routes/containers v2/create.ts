@@ -42,7 +42,7 @@ router.post("/create", async (req: Request, res: Response) => {
   if (!success) {
     res.status(500);
     res.json({
-      message: "Failed to while building image."
+      message: "Failed while building image."
     });
     return res.end();
   }
@@ -50,7 +50,8 @@ router.post("/create", async (req: Request, res: Response) => {
   docker.createContainer({
     Image: t,
     name: containerName,
-    HostConfig: { PortBindings }
+    HostConfig: { PortBindings },
+		Cmd: ["-it", "-d"]
   }, (err: Error, container) => {
     if (!err) {
 			container?.start(async (err) => {
