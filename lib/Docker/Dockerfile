@@ -1,0 +1,9 @@
+FROM sspreitzer/shellinabox:${base_image}
+
+ARG $PASSWORD
+ARG $USERNAME
+
+ENV SIAB_SSL false
+ENV SIAB_PASSWORD $PASSWORD
+ENV SIAB_USER $USERNAME
+ENV SIAB_SUDO true
