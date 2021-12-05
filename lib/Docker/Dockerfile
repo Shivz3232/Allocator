@@ -1,10 +1,16 @@
-ARG $PASSWORD
-ARG $USERNAME
-ARG $BASE_IMAGE
+FROM ubuntu:20.04
 
-FROM sspreitzer/shellinabox:$BASE_IMAGE
+ARG USERNAME=instructor
+ARG PASSWORD=password
+ARG PORT=4217
 
-ENV SIAB_SSL false
-ENV SIAB_PASSWORD $PASSWORD
-ENV SIAB_USER $USERNAME
-ENV SIAB_SUDO true
+RUN apt update
+RUN apt install openssl -y 
+RUN apt install shellinabox -y
+RUN useradd -m $USERNAME
+RUN echo $USERNAME:$PASSWORD | chpasswd
+
+COPY ./shellinabox /etc/default/shellinabox
+EXPOSE $PORT
+
+ENTRYPOINT service shellinabox start && bash
