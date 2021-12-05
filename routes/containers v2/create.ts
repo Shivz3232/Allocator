@@ -12,7 +12,7 @@ router.use(json());
 let port = 3001;
 
 router.post("/create", async (req: Request, res: Response) => {
-	const { baseImage, containerName, password, username } = req.body;
+	const { containerName, password } = req.body;
 	port = 3001 + Math.floor(Math.random() * 100);
 
   var PortBindings: Dockerode.PortMap = {
@@ -24,8 +24,7 @@ router.post("/create", async (req: Request, res: Response) => {
 	}
 
   const buildargs = {
-    PASSWORD: password,
-    USERNAME: username
+    PASSWORD: password
   }
   
   docker.buildImage(path.join(__dirname, "../../lib/Docker/Dockerfile"), { buildargs }, (error, result) => {
