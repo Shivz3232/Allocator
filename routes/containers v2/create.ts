@@ -29,15 +29,27 @@ router.post("/create", async (req: Request, res: Response) => {
     PASSWORD: password
   }
   
-  let success =  await docker.buildImage({
+  let stream =  await docker.buildImage({
     context: path.join(__dirname, "../../lib/Docker"),
     src: ['Dockerfile', 'shellinabox', 'config.yaml']
-  }, { buildargs, t }).then(() => {
-    return true;
-  }).catch(err => {
-    // console.log(err);
-    return false;
-  });
+  }, { buildargs, t });
+	// then(() => {
+  //   return true;
+  // }).catch(err => {
+  //   // console.log(err);
+  //   return false;
+  // });
+
+	const success = await new Promise((resolve, reject) => {
+		docker.modem.followProgres(stream, (err: Error, response: any) => { if (err) reject(err); else resolve(response); })
+	}).then((response) => {
+		console.log(response);
+		return true;
+	})
+	.catch(err => {
+		console.log(err);
+		return false;
+	})
 
   if (!success) {
     res.status(500);
