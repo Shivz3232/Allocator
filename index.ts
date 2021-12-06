@@ -20,8 +20,8 @@ mongoose.connect("mongodb+srv://afif:Wu7DZ4PG8rBEJHZ7@image-service.kp4h6.mongod
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use("/api/v1/images", indexImageRouter)
-app.use("/api/v1/container", indexContainerRouter)
+app.use("/api/images", indexImageRouter)
+app.use("/api/container", indexContainerRouter)
 app.use("/api/v2/container", indexContainerRouterV2)
 app.get("/ping", (req: Request, res: Response) => res.end("Hello from ec2"));
 
