@@ -12,7 +12,7 @@ router.use(json());
 let port = 3001;
 
 router.post("/create", async (req: Request, res: Response) => {
-	const { imageName, containerName, password } = req.body;
+	const { imageName, containerName, password, userId } = req.body;
   const t = imageName + String(Math.floor(Math.random() * 10 ** 10))
   
 	port = 3001 + Math.floor(Math.random() * 100);
@@ -47,15 +47,6 @@ router.post("/create", async (req: Request, res: Response) => {
     return res.end();
   }
 
-	// const result = docker.run(t, ["-it", "-d", "-p", `${port}:4217`], []).then((data) => {
-	// 	return data;
-	// }).catch(err => {
-	// 	return err;
-	// })
-
-	// console.log(result);
-	// res.end();
-	
   docker.createContainer({
     Image: t,
     name: containerName,
@@ -69,7 +60,8 @@ router.post("/create", async (req: Request, res: Response) => {
 						containerId: container.id,
 						baseImage: t,
 						origin: "raw",
-						state: "Running"
+						state: "Running",
+						userId
 					}).catch(console.error);
 					res.setHeader("Access-Control-Allow-Origin", "*");
 					res.json({
