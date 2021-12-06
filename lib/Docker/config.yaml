@@ -1,0 +1,4 @@
+bind-addr: 0.0.0.0:5217
+auth: none
+password: dfa5fc856d56d366d843f224
+cert: false
