@@ -12,8 +12,8 @@ router.use(json());
 let port = 3001;
 
 router.post("/create", async (req: Request, res: Response) => {
-	const { imageName, containerName, password, userId } = req.body;
-  const t = imageName + String(Math.floor(Math.random() * 10 ** 10))
+	const { baseImage, containerName, password, userId } = req.body;
+  const t = baseImage + String(Math.floor(Math.random() * 10 ** 10))
   
 	port = 3001 + Math.floor(Math.random() * 100);
 

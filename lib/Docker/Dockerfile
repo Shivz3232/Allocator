@@ -9,9 +9,6 @@ ARG CODESERVER_PORT
 RUN apt update
 RUN apt install openssl -y
 RUN apt install shellinabox -y
-RUN useradd -m $USERNAME
-RUN echo $USERNAME:$PASSWORD | chpasswd
-
 
 # installing zsh
 RUN apt install zsh -y
@@ -24,6 +21,9 @@ COPY ./shellinabox /etc/default/shellinabox
 # isntalling code-server
 RUN curl -fsSL https://code-server.dev/install.sh | sh
 COPY ./config.yaml /root/.config/code-server/config.yaml
+
+RUN useradd -m $USERNAME
+RUN echo $USERNAME:$PASSWORD | chpasswd
 
 EXPOSE $SHELLINABOX_PORT
 EXPOSE $CODESERVER_PORT
