@@ -41,7 +41,8 @@ router.post("/create", async (req: Request, res: Response) => {
   // });
 
 	const success = await new Promise((resolve, reject) => {
-		stream.on("close", () => { resolve(1) });
+		stream.on("end", () => { resolve(1) });
+		stream.on("data", (data) => { console.log(data) })
 	}).then(() => {
 		return true;
 	})
