@@ -60,7 +60,7 @@ router.post("/create", async (req: Request, res: Response) => {
     Image: t,
     name: containerName,
     HostConfig: { PortBindings },
-		Cmd: ["bash", '&&', 'service shellinabox start']
+		Tty: true
   }, (err: Error, container) => {
     if (!err) {
 			container?.start({}, async (err) => {
