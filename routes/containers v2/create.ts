@@ -42,7 +42,7 @@ router.post("/create", async (req: Request, res: Response) => {
 
 	const success = await new Promise((resolve, reject) => {
 		stream.on("end", () => { resolve(1) });
-		stream.on("data", (data) => { console.log(data) })
+		stream.on("data", (data) => { console.log(String(data)) })
 	}).then(() => {
 		return true;
 	})
