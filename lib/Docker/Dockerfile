@@ -13,4 +13,4 @@ RUN echo $USERNAME:$PASSWORD | chpasswd
 COPY ./shellinabox /etc/default/shellinabox
 EXPOSE $PORT
 
-ENTRYPOINT bash && service shellinabox start
+ENTRYPOINT service shellinabox start && bash
