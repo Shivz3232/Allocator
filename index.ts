@@ -12,7 +12,7 @@ const { indexContainerRouter } = require("./routes/containers");
 const cors = require("cors");
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb+srv://afif:Wu7DZ4PG8rBEJHZ7@image-service.kp4h6.mongodb.net", {
+mongoose.connect(process.env.MONGO_CONNECTION_URL, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
   useFindAndModify: false,
