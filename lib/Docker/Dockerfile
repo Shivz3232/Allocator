@@ -5,16 +5,14 @@ ARG PASSWORD=password
 ARG SHELLINABOX_PORT=4217
 ARG CODESERVER_PORT
 
-# installing shellinbox
-RUN apt update
-RUN apt install openssl -y
-RUN apt install shellinabox -y
-
-# installing zsh
-RUN apt install zsh -y
-RUN apt install git -y
-RUN apt install curl -y
-RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -y
+# installing shellinbox and ZSH
+RUN apt update && \
+    apt install openssl -y && \
+    apt install shellinabox -y && \
+    apt install zsh -y && \
+    apt install git -y && \
+    apt install curl -y && \
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -y
 
 COPY ./shellinabox /etc/default/shellinabox
 
@@ -22,12 +20,10 @@ COPY ./shellinabox /etc/default/shellinabox
 RUN curl -fsSL https://code-server.dev/install.sh | sh
 COPY ./config.yaml /root/.config/code-server/config.yaml
 
-RUN useradd -m $USERNAME
-RUN echo $USERNAME:$PASSWORD | chpasswd
+RUN useradd -m $USERNAME && \
+    echo $USERNAME:$PASSWORD | chpasswd
 
 EXPOSE $SHELLINABOX_PORT
 EXPOSE $CODESERVER_PORT
 
-
 ENTRYPOINT service shellinabox start && code-server
-
