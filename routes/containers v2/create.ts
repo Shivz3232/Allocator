@@ -41,9 +41,8 @@ router.post("/create", async (req: Request, res: Response) => {
   // });
 
 	const success = await new Promise((resolve, reject) => {
-		docker.modem.followProgres(stream, (err: Error, response: any) => { if (err) reject(err); else resolve(response); })
-	}).then((response) => {
-		console.log(response);
+		stream.on("close", () => { resolve(1) });
+	}).then(() => {
 		return true;
 	})
 	.catch(err => {
