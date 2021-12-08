@@ -24,7 +24,7 @@ const imageSchema = new Schema({
     type: String,
     required: true
   },
-  registryUsre: {
+  registryUser: {
     type: String,
     required: true
   },
