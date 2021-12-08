@@ -74,6 +74,8 @@ router.post("/create", async (req: Request, res: Response) => {
 						baseImage,
 						origin: "raw",
 						state: "Running",
+            shellinaBoxPort: port,
+            shellinaBoxPassword: password,
 						userId
 					}).catch(console.error);
 					res.setHeader("Access-Control-Allow-Origin", "*");
