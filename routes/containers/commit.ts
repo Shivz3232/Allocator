@@ -44,7 +44,18 @@ router.post("/commit", async (req: Request, res: Response) => {
           tag: "latest"
         })
         .then(() => {
-          res.end();
+          const image = docker.getImage(repo);
+
+          image.push().then(() => {
+            res.end();
+          }).catch(err => {
+            // console.error(err);
+            res.status(500);
+            res.json({
+              message: "Commited but failed to push image to registry."
+            });
+            res.end();
+          })
         })
         .catch((err: Error) => {
           console.error(err);
