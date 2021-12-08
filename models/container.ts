@@ -7,6 +7,8 @@ export interface ContainerI extends Document {
   origin: "raw" | "native";
   baseImage: string;
   state: "Running" | "Stopped";
+  shellinaBoxPort: number;
+  shellinaBoxPassword: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -38,6 +40,14 @@ const ContainerSchema = new Schema({
     type: String,
     required: true,
     enum: ["Running", "Stopped"]
+  },
+  shellinaBoxPort: {
+    type: Number,
+    required: true
+  },
+  shellinaBoxPassword: {
+    type: String,
+    requierd: true
   }
 }, {
   timestamps: {
