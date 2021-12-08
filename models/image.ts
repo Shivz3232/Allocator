@@ -22,6 +22,7 @@ const imageSchema = new Schema({
   },
   repo: {
     type: String,
+    unique: true,
     required: true
   },
   registryUser: {
@@ -30,7 +31,6 @@ const imageSchema = new Schema({
   },
   tag: {
     type: String,
-    unique: true,
     required: true
   }
 }, {
