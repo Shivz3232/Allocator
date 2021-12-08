@@ -70,7 +70,8 @@ router.post("/create", async (req: Request, res: Response) => {
 				if (!err) {
 					await Container.create({
 						containerId: container.id,
-						baseImage: t,
+            containerName,
+						baseImage,
 						origin: "raw",
 						state: "Running",
 						userId
