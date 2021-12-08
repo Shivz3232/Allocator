@@ -3,6 +3,7 @@ import { model, Schema, SchemaTypes } from "mongoose";
 export interface ContainerI extends Document {
   userId: string;
   containerId: string;
+  containerName?: string;
   origin: "raw" | "native";
   baseImage: string;
   state: "Running" | "Stopped";
@@ -15,6 +16,10 @@ const ContainerSchema = new Schema({
     type: SchemaTypes.ObjectId,
     required: true,
     ref: "Users"
+  },
+  containerName: {
+    type: String,
+    unique: true
   },
   containerId: {
     type: String,
