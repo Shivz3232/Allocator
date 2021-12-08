@@ -46,7 +46,7 @@ router.post("/commit", async (req: Request, res: Response) => {
         .then(() => {
           const image = docker.getImage(repo);
 
-          image.push().then(() => {
+          image.push({ authconfig: JSON.parse(process.env.DOCKER_AUTH!)}).then(() => {
             res.end();
           }).catch(err => {
             // console.error(err);
