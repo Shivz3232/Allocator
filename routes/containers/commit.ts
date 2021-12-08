@@ -8,15 +8,15 @@ const router = express.Router();
 router.use(json());
 
 router.post("/commit", async (req: Request, res: Response) => {
-  const { tag, containerId, userId } = req.body;
+  const { imageName, containerId, userId } = req.body;
 
-  // Check if tag is available
-  const count = await Image.countDocuments({ tag });
+  // Check if imageName is available
+  const count = await Image.countDocuments({ imageName });
 
   if (count > 0) {
     res.status(400);
     res.json({
-      message: "Tag not available"
+      message: "Image name not available"
     });
     return res.end();
   }
@@ -29,18 +29,19 @@ router.post("/commit", async (req: Request, res: Response) => {
   
   if (doc) {
     const container = docker.getContainer(doc.containerId);
-  
+    const repo = process.env.REGISTRY_USER + imageName;
+    
     container.commit({
       container: doc.containerId,
-      repo: "shyvz",
-      tag
+      repo
     }, async (err, result) => {
       if (!err) {
         await Image.create({
           imageId: result.Id,
           userId,
-          repo: "shyvz",
-          tag
+          repo: imageName,
+          registryUser: process.env.REGISTRY_USER,
+          tag: "latest"
         })
         .then(() => {
           res.end();

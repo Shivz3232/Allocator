@@ -4,6 +4,7 @@ export interface ImageI extends Document {
   userId: string;
   imageId: string;
   repo: string;
+  registryUser: string;
   tag: string;
   createdAt: string;
   updatedAt: string;
@@ -20,6 +21,10 @@ const imageSchema = new Schema({
     required: true
   },
   repo: {
+    type: String,
+    required: true
+  },
+  registryUsre: {
     type: String,
     required: true
   },
