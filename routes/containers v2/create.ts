@@ -31,7 +31,7 @@ router.post("/create", async (req: Request, res: Response) => {
   
   let stream =  await docker.buildImage({
     context: path.join(__dirname, "../../lib/Docker"),
-    src: ['Dockerfile', 'shellinabox', 'config.yaml']
+    src: ['Dockerfile', 'shellinabox', 'config.yaml', 'settings.json']
   }, { buildargs, t });
 	// then(() => {
   //   return true;
