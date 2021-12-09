@@ -19,6 +19,7 @@ COPY ./shellinabox /etc/default/shellinabox
 # isntalling code-server
 RUN curl -fsSL https://code-server.dev/install.sh | sh
 COPY ./config.yaml /root/.config/code-server/config.yaml
+COPY ./settings.json /root/.local/share/code-server/User/settings.json
 
 RUN useradd -m $USERNAME && \
     echo $USERNAME:$PASSWORD | chpasswd
