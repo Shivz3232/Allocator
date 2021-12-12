@@ -9,12 +9,20 @@ router.use(json());
 router.post("/start", async (req: Request, res: Response) => {
   const { containerId } = req.body;
   
-  const containerDoc = await Container.findOne({ containerId, state: "Running" }, "containerId status").catch(console.error);
+  const containerDoc = await Container.findOne({ containerId }, "containerId state").catch(console.error);
 
   if (containerDoc) {
     const container = docker.getContainer(containerDoc.containerId);
 
-    container.start(containerDoc.containerId, async (err: Error, result) => {
+    if (containerDoc.state == "Running") {
+      res.status(400);
+      res.json({
+        message: "Container is already running"
+      });
+      return res.end();
+    }
+
+    container.start({}, async (err: Error, result) => {
       if (!err) {
         containerDoc.state = "Running";
 
