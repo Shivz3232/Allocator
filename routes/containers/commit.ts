@@ -11,7 +11,7 @@ router.post("/commit", async (req: Request, res: Response) => {
   const { imageName, containerId, userId } = req.body;
 
   // Check if imageName is available
-  const count = await Image.countDocuments({ imageName });
+  const count = await Image.countDocuments({ repo: imageName });
 
   if (count > 0) {
     res.status(400);
