@@ -1,4 +1,4 @@
-import { model, Schema, SchemaTypes } from 'mongoose';
+import { model, Schema, SchemaTypes, Document } from 'mongoose';
 
 export interface ImageI extends Document {
   userId: string;
