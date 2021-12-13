@@ -12,6 +12,7 @@ RUN apt update && \
     apt install zsh -y && \
     apt install git -y && \
     apt install curl -y && \
+    apt install sudo && \
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -y
 
 COPY ./shellinabox /etc/default/shellinabox
@@ -21,8 +22,9 @@ RUN curl -fsSL https://code-server.dev/install.sh | sh
 COPY ./config.yaml /root/.config/code-server/config.yaml
 COPY ./settings.json /root/.local/share/code-server/User/settings.json
 
-RUN useradd -m -G root $USERNAME && \
-    echo $USERNAME:$PASSWORD | chpasswd
+RUN useradd -m $USERNAME && \
+    echo $USERNAME:$PASSWORD | chpasswd && \
+    usermod -aG sudo ${USERNAME}
 
 EXPOSE $SHELLINABOX_PORT
 EXPOSE $CODESERVER_PORT
